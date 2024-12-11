@@ -1,0 +1,251 @@
+/* Общие стили */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Логотип */
+.logo img {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+/* Карточка формы */
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-card h2 {
+    font-size: 24px;
+    font-weight: 700; /* Roboto Bold */
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.login-card p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: left;
+    font-weight: 400; /* Roboto Regular */
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
+    font-weight: 400; /* Roboto Regular */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    font-weight: 400; /* Roboto Regular */
+    background-color: #f0f0f0; /* Затемнение строки ввода */
+}
+
+.input-group input:focus {
+    border-color: #204064;
+    outline: none;
+}
+
+.password-input-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.password-input-wrapper input {
+    flex: 1;
+    padding-right: 40px; /* Добавим отступ справа для символа глаза */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(5%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #888;
+    user-select: none;
+}
+
+.toggle-password:hover {
+    color: #555;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #204064;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500; /* Roboto Medium */
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.forgot-password {
+    text-align: left; /* Смещение текста "Забыли пароль?" влево */
+    margin-bottom: 20px;
+    font-weight: 400; /* Roboto Regular */
+}
+
+.forgot-password a {
+    color: #204064;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 500; /* Roboto Medium */
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+.register-link {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 400; /* Roboto Regular */
+}
+
+.register-link a {
+    color: #204064;
+    text-decoration: none;
+    font-weight: 500; /* Roboto Medium */
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Футер внутри карточки */
+.card-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    width: 100%;
+}
+
+.card-footer p {
+    margin: 0;
+    font-weight: 400; /* Roboto Regular */
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 500px;
+    }
+
+    .login-card {
+        padding: 35px 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: 400px;
+    }
+
+    .login-card {
+        padding: 30px 20px;
+    }
+
+    .logo img {
+        width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        max-width: 350px;
+    }
+
+    .login-card {
+        padding: 25px 15px;
+    }
+
+    .logo img {
+        width: 120px;
+    }
+
+    .login-card h2 {
+        font-size: 22px;
+    }
+
+    .input-group input {
+        font-size: 13px;
+    }
+
+    .toggle-password {
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 15px;
+    }
+
+    .forgot-password a {
+        font-size: 13px;
+    }
+
+    .register-link {
+        font-size: 13px;
+    }
+
+    .register-link a {
+        font-size: 13px;
+    }
+
+    .card-footer p {
+        font-size: 13px;
+    }
+}
