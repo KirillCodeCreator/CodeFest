@@ -79,7 +79,7 @@ body {
     font-size: 14px;
     box-sizing: border-box;
     font-weight: 400; /* Roboto Regular */
-    background-color: #f0f0f0; /* Затемнение строки ввода */
+    background-color: #f0f0f0;
 }
 
 .input-group input:focus {
@@ -95,7 +95,7 @@ body {
 
 .password-input-wrapper input {
     flex: 1;
-    padding-right: 40px; /* Добавим отступ справа для символа глаза */
+    padding-right: 40px;
 }
 
 .toggle-password {
@@ -131,7 +131,7 @@ button:hover {
 }
 
 .forgot-password {
-    text-align: left; /* Смещение текста "Забыли пароль?" влево */
+    text-align: left;
     margin-bottom: 20px;
     font-weight: 400; /* Roboto Regular */
 }
