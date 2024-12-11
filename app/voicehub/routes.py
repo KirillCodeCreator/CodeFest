@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 
 from app.models import db_session
 
@@ -17,4 +17,5 @@ db_ses = db_session.create_session()
     ],
 )
 def index():
-    return render_template("index.html", title="VoiceHub")
+    # return render_template("index.html", title="VoiceHub")
+    return "Привет!"

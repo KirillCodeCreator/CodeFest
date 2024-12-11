@@ -10,10 +10,11 @@ from app.config import config
 from app.models import db_session
 from app.models.notifications import Notifications
 from app.models.users import Users
+from app.voicehub.routes import voicehub
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="../src/public")
     app.config.from_object(config)
     db_session.global_init(config.DATABASE_URI)
     db_ses = db_session.create_session()
@@ -43,6 +44,9 @@ def create_app():
     babel = Babel(  # noqa
         app,
         locale_selector=get_locale,
+    )
+    app.register_blueprint(
+        voicehub,
     )
 
     @login_manager.user_loader
