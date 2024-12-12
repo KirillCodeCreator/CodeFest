@@ -7,6 +7,3 @@
 __pycache__
 
 *.pyc
-
-metrics
-*metrics*

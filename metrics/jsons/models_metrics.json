@@ -1,0 +1,89 @@
+{
+    "model": [
+        "openai-whisper-v2",
+        "openai-whisper-v3",
+        "openai-whisper-v3-turbo"
+    ],
+    "metrics": [
+        {
+            "text-name": "cooking",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "education",
+            "relative_quality": {
+                "v2": 0.95,
+                "v3": 0.95,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "finance",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "literature",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "medice",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "news",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "simple",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "sport",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        },
+        {
+            "text-name": "tech",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 0.99
+            }
+        },
+        {
+            "text-name": "turist",
+            "relative_quality": {
+                "v2": 1.0,
+                "v3": 1.0,
+                "v3-turbo": 1.0
+            }
+        }
+    ]
+}

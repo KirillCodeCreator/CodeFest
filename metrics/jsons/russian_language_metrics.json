@@ -1,0 +1,209 @@
+{
+    "models": [
+        "openai-whisper-v2",
+        "openai-whisper-v3",
+        "openai-whisper-v3-turbo"
+    ],
+    "metrics": [
+        {
+            "text-name": "cooking",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 0.99,
+                    "style": 0.99,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 0.99,
+                    "style": 0.99,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 0.99,
+                    "style": 0.99,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "education",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 0.9,
+                    "style": 0.95,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 0.9,
+                    "style": 0.95,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "finance",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "literature",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "medice",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "news",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "simple",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "sport",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 0.95,
+                    "style": 0.98,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 0.95,
+                    "style": 0.98,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 0.95,
+                    "style": 0.98,
+                    "meaning": 1.0
+                }
+            }
+        },
+        {
+            "text-name": "tech",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 1.0,
+                    "style": 1.0,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 0.95,
+                    "style": 0.98,
+                    "meaning": 0.99
+                }
+            }
+        },
+        {
+            "text-name": "turist",
+            "relative_scores": {
+                "v2": {
+                    "grammar": 0.95,
+                    "style": 0.95,
+                    "meaning": 1.0
+                },
+                "v3": {
+                    "grammar": 0.95,
+                    "style": 0.95,
+                    "meaning": 1.0
+                },
+                "v3-turbo": {
+                    "grammar": 0.95,
+                    "style": 0.95,
+                    "meaning": 1.0
+                }
+            }
+        }
+    ]
+}

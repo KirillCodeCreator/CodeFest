@@ -16,24 +16,24 @@
             <div class="login-card">
                 <h2>Вход</h2>
                 <p>Пожалуйста, войдите, чтобы продолжить.</p>
-                <form>
+                <form action="/login" method="POST">
                     <div class="input-group">
                         <label for="name">Имя</label>
-                        <input type="text" id="name" placeholder="Имя" maxlength="50" required>
+                        <input type="text" id="name" name="name" placeholder="Имя" maxlength="50" required>
                     </div>
                     <div class="input-group">
                         <label for="email">Почта</label>
-                        <input type="email" id="email" placeholder="Username@gmail.com" maxlength="50" required>
+                        <input type="email" id="email" name="email" placeholder="Username@gmail.com" maxlength="50" required>
                     </div>
                     <div class="input-group">
                         <label for="password">Пароль</label>
-                        <input id="password" type="password" placeholder="Пароль" maxlength="30" required>
+                        <input id="password" name="password" type="password" placeholder="Пароль" maxlength="30" required>
                         <span id="toggle-password" class="toggle-password">👁️</span>
                     </div>
                     <div class="forgot-password">
                         <a href="#">Забыли пароль?</a>
                     </div>
-                    <button type="submit">Войти</button>
+                    <button type="submit" formaction="/login">Войти</button>
                 </form>
                 <p class="register-link">
                     Еще нет аккаунта? <a href="#">Зарегистрироваться</a>
