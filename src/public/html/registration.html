@@ -14,12 +14,12 @@
         </header>
         <main class="form-wrapper">
             <div class="login-card">
-                <a href="login.html" class="back-arrow">
+                <a href="/login" class="back-arrow">
                     <img src="../styles/arrow_back.svg" alt="Назад">
                 </a>
                 <h2>Регистрация</h2>
                 <p>Пожалуйста, зарегистрируйтесь, чтобы войти.</p>
-                <form action="/login" method="POST">
+                <form method="POST">
                     <div class="input-group">
                         <label for="name">Имя</label>
                         <input type="text" id="name" name="name" placeholder="Имя" maxlength="50" required>
@@ -33,7 +33,8 @@
                         <input id="password" name="password" type="password" placeholder="Пароль" maxlength="30" required>
                         <span id="toggle-password" class="toggle-password">👁️</span>
                     </div>
-                    <button type="submit" formaction="/login">Зарегистрироваться</button>
+                    <button type="submit">Зарегистрироваться</button>
+                    <p>{{ error }}</p>
                 </form>
             </div>
             <footer class="card-footer">

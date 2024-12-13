@@ -7,8 +7,8 @@ from app.models.users import Users
 voicehub = Blueprint(
     "voicehub",
     __name__,
-    template_folder="../../src/public",
-    static_folder="../../src/public",
+    template_folder="../../src/public/html",
+    static_folder="../../src/public/styles",
 )
 db_session.global_init("app/app.db")
 db_ses = db_session.create_session()
@@ -22,8 +22,7 @@ db_ses = db_session.create_session()
     ],
 )
 def index():
-    # return render_template("index.html", title="VoiceHub")
-    return render_template("index.html")
+    return render_template("main-page.html")
 
 
 @voicehub.route(
@@ -63,14 +62,35 @@ def logout():
 
 
 @voicehub.route(
-    "/register",
+    "/registration",
     methods=[
         "POST",
         "GET",
     ],
 )
 def register():
-    pass
+    if request.method == "POST":
+        user_data = request.form
+        if db_ses.query(Users).filter_by(email=user_data["email"]).first():
+            return render_template(
+                "registration.html",
+                error="Пользователь с таким email уже есть!",
+            )
+        elif len(user_data["password"]) < 8:
+            return render_template(
+                "registration.html",
+                error="Длина пароля должна быть не менее 8 символов!",
+            )
+        user = Users(
+            name=user_data["name"],
+            email=user_data["email"],
+        )
+        print(user_data["password"])
+        user.set_password(user_data["password"])
+        db_ses.add(user)
+        db_ses.commit()
+        return redirect("/login")
+    return render_template("registration.html")
 
 
 @voicehub.route(
