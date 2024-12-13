@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceHub - Чат</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/chat.css">
+</head>
+<body>
+    <div class="chat-container">
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <div class="profile">
+                    <span class="profile-name">Здравствуйте, Name!</span>
+                </div>
+                <div class="search">
+                    <input type="text" placeholder="Поиск по чатам" class="search-input">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt="Search" class="search-icon">
+                </div>
+            </header>
+            <div class="chats">
+                <ul class="chat-list">
+                    <li class="chat-item active">Новый чат</li>
+                    <li class="chat-item">Новый чат 2</li>
+                </ul>
+            </div>
+            <footer class="sidebar-footer">
+                <button class="settings-btn">
+                    <img src="../images/settings.svg" alt="Settings" class="settings-icon">
+                    Настройки
+                </button>
+                <button class="help-btn">
+                    <img src="../images/question.svg" alt="Help" class="help-icon">
+                    Помощь
+                </button>
+            </footer>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <img src="../images/logo.svg" alt="VoiceHub Logo" class="logo">
+                <button class="new-chat-btn">+ Новый чат</button>
+            </header>
+
+            <section class="chat-section">
+                <div class="messages"></div>
+
+                <div class="message-input">
+                    <input type="text" placeholder="Запишите голосовое сообщение" id="message-box" disabled>
+                    <button id="send-message" class="send-btn">
+                        <img src="../images/voice.svg" alt="Send" class="send-icon">
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../javascript/chat.js"></script>
+</body>
+</html>
