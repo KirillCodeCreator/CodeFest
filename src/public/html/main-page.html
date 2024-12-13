@@ -34,11 +34,11 @@
                 </ul>
             </div>
             <footer class="sidebar-footer">
-                <button class="settings-btn">
+                <button class="settings-btn" id="theme-toggle">
                     <img src="../styles/settings.svg" alt="Settings" class="settings-icon">
-                    Настройки
+                    Тёмная тема
                 </button>
-                <button class="help-btn">
+                <button class="help-btn" id="help-btn">
                     <img src="../styles/question.svg" alt="Help" class="help-icon">
                     Помощь
                 </button>
@@ -62,6 +62,14 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>ЗАПИСЬ ГОЛОСА</h2>
+            <p>Для корректной работы программы Вам необходимо подождать 1 секунду после начала записи и говорить разборчиво, понятно. Удачи!</p>
+        </div>
     </div>
 
     <script src="../styles/chat.js"></script>

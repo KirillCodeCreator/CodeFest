@@ -26,9 +26,31 @@ document.addEventListener("DOMContentLoaded", function() {
     const recordButton = document.getElementById('record-button');
     const messageBox = document.getElementById('message-box');
     const sendIcon = document.querySelector('.send-icon');
+    const themeToggle = document.getElementById('theme-toggle');
+    const helpBtn = document.getElementById('help-btn');
+    const helpModal = document.getElementById('helpModal');
+    const closeBtn = document.querySelector('.close-btn');
     let mediaRecorder;
     let audioChunks = [];
     let isRecording = false;
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+    });
+
+    helpBtn.addEventListener('click', () => {
+        helpModal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        helpModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == helpModal) {
+            helpModal.style.display = 'none';
+        }
+    });
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         recordButton.addEventListener('click', async () => {
@@ -81,6 +103,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     } else {
-        console.error('getUserMedia not supported on your browser!');
+        console.error('Обновите Ваш браузер для корректной работы голосового ввода!');
     }
 });
