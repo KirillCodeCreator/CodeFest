@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceHub - Вход</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>VoiceHub - Регистрация</title>
+    <link rel="stylesheet" href="../styles/registration.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header class="logo">
-            <img src="logo.svg" alt="VoiceHub Logo">
+            <img src="../images/logo.svg" alt="VoiceHub Logo">
         </header>
         <main class="form-wrapper">
             <div class="login-card">
-                <h2>Вход</h2>
-                <p>Пожалуйста, войдите, чтобы продолжить.</p>
+                <a href="login.html" class="back-arrow">
+                    <img src="../images/arrow_back.svg" alt="Назад">
+                </a>
+                <h2>Регистрация</h2>
+                <p>Пожалуйста, зарегистрируйтесь, чтобы войти.</p>
                 <form action="/login" method="POST">
                     <div class="input-group">
                         <label for="name">Имя</label>
@@ -30,20 +33,14 @@
                         <input id="password" name="password" type="password" placeholder="Пароль" maxlength="30" required>
                         <span id="toggle-password" class="toggle-password">👁️</span>
                     </div>
-                    <div class="forgot-password">
-                        <a href="#">Забыли пароль?</a>
-                    </div>
-                    <button type="submit" formaction="/login">Войти</button>
+                    <button type="submit" formaction="/login">Зарегистрироваться</button>
                 </form>
-                <p class="register-link">
-                    Еще нет аккаунта? <a href="#">Зарегистрироваться</a>
-                </p>
             </div>
             <footer class="card-footer">
                 <p>VoiceHub<br>Copyright © Version: 1.0</p>
             </footer>
         </main>
     </div>
-    <script src="script.js"></script>
+    <script src="../javascript/registration.js"></script>
 </body>
 </html>
