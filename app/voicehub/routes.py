@@ -1,8 +1,9 @@
-from flask import Blueprint, redirect, render_template, request
+from flask import Blueprint, jsonify, redirect, render_template, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app.models import db_session
 from app.models.users import Users
+from app.whisper.voice2text import voice2text_function
 
 voicehub = Blueprint(
     "voicehub",
@@ -113,3 +114,10 @@ def register():
 def chat():
     uuid = request.args.get("uuid", default=None, type=str)
     return uuid
+
+
+@voicehub.route("/get-voice2text", methods=["POST", "GET"])
+def get_voice2text():
+    voice_in_bin = request.json["data"]
+    print(voice_in_bin)
+    return jsonify({"data": voice2text_function(voice_in_bin=voice_in_bin)})
