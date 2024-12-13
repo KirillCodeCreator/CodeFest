@@ -12,7 +12,15 @@
         <aside class="sidebar">
             <header class="sidebar-header">
                 <div class="profile">
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            <img src="../styles/arrow_drop_down.svg" alt="Dropdown" class="dropdown-icon">
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/logout">Выйти</a>
+                        </div>
                     <span class="profile-name">Здравствуйте, {{user.name}}!</span>
+                    </div>
                 </div>
                 <div class="search">
                     <input type="text" placeholder="Поиск по чатам" class="search-input">
