@@ -23,7 +23,7 @@ db_ses = db_session.create_session()
 )
 def index():
     if current_user.is_authenticated:
-        return render_template("main-page.html")
+        return render_template("main-page.html", user=current_user)
     else:
         return redirect("/login")
 
