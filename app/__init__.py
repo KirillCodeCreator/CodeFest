@@ -5,10 +5,12 @@ from flask_login import LoginManager
 
 from app.admin.localization.admin_localization import get_locale
 from app.admin.views.notifications_views import NotificationsView
+from app.admin.views.solvings_of_problems_view import SolvingsOfProblemsView
 from app.admin.views.users_view import UsersView
 from app.config import config
 from app.models import db_session
 from app.models.notifications import Notifications
+from app.models.solvings_of_problems import SolvingsOfProblems
 from app.models.users import Users
 from app.voicehub.routes import voicehub
 
@@ -37,6 +39,11 @@ def create_app():
             Notifications,
             db_ses,
             name="Уведомления",
+        ),
+        SolvingsOfProblemsView(
+            SolvingsOfProblems,
+            db_ses,
+            name="Решения проблем",
         ),
     )
     login_manager = LoginManager()

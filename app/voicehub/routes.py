@@ -1,3 +1,5 @@
+import base64
+
 from flask import Blueprint, jsonify, redirect, render_template, request
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -118,6 +120,18 @@ def chat():
 
 @voicehub.route("/get-voice2text", methods=["POST", "GET"])
 def get_voice2text():
-    voice_in_bin = request.json["data"]
-    print(voice_in_bin)
-    return jsonify({"data": voice2text_function(voice_in_bin=voice_in_bin)})
+    data = request.json.get("data")
+
+    if data is None:
+        return jsonify({"error": "No data provided"}), 400
+
+    try:
+        # Декодирование base64 обратно в бинарные данные
+        decoded_data = base64.b64decode(data)
+
+        # Распознавание речи
+        transcription = voice2text_function(decoded_data)
+
+        return jsonify({"transcription": transcription})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
