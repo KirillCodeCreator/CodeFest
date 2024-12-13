@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     const recordButton = document.getElementById('record-button');
-    const waveContainer = document.getElementById('wave-container');
-    const wave = document.getElementById('wave');
+    const messageBox = document.getElementById('message-box');
+    const sendIcon = document.querySelector('.send-icon');
     let mediaRecorder;
     let audioChunks = [];
     let isRecording = false;
@@ -46,39 +46,24 @@ document.addEventListener("DOMContentLoaded", function() {
                     const audio = new Audio(audioUrl);
                     audio.play();
                     audioChunks = [];
+
+                    // Возвращаем форму в исходное состояние
+                    messageBox.placeholder = "Запишите голосовое сообщение";
+                    messageBox.classList.remove('recording');
+                    sendIcon.src = '../styles/voice.svg';
+                    isRecording = false;
                 };
 
                 mediaRecorder.start();
-                waveContainer.style.display = 'block';
+                messageBox.placeholder = "Идёт запись голосового сообщения";
+                messageBox.classList.add('recording');
+                sendIcon.src = '../styles/voice2.svg';
                 isRecording = true;
-
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const analyser = audioContext.createAnalyser();
-                const source = audioContext.createMediaStreamSource(stream);
-                source.connect(analyser);
-                analyser.fftSize = 256;
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
-
-                const draw = () => {
-                    requestAnimationFrame(draw);
-                    analyser.getByteTimeDomainData(dataArray);
-                    let sum = 0;
-                    for (let i = 0; i < bufferLength; i++) {
-                        sum += dataArray[i];
-                    }
-                    const average = sum / bufferLength;
-                    wave.style.width = `${average / 2}%`;
-                };
-
-                draw();
             } else {
                 mediaRecorder.stop();
-                waveContainer.style.display = 'none';
-                isRecording = false;
             }
         });
     } else {
-        console.error('Обновите версию вашего браузера!');
+        console.error('getUserMedia not supported on your browser!');
     }
 });
