@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, render_template, request
-from flask_login import login_required, login_user
+from flask_login import current_user, login_required, login_user, logout_user
 
 from app.models import db_session
 from app.models.users import Users
@@ -22,7 +22,10 @@ db_ses = db_session.create_session()
     ],
 )
 def index():
-    return render_template("main-page.html")
+    if current_user.is_authenticated:
+        return render_template("main-page.html")
+    else:
+        return redirect("/login")
 
 
 @voicehub.route(
@@ -58,7 +61,8 @@ def login():
 )
 @login_required
 def logout():
-    pass
+    logout_user()
+    return redirect("/login")
 
 
 @voicehub.route(
