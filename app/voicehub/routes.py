@@ -85,6 +85,11 @@ def register():
                 "registration.html",
                 error="Длина пароля должна быть не менее 8 символов!",
             )
+        elif user_data["password"] != user_data["repeatpassword"]:
+            return render_template(
+                "registration.html",
+                error="Пароли не совпадают!",
+            )
         user = Users(
             name=user_data["name"],
             email=user_data["email"],
