@@ -40,18 +40,35 @@ document.addEventListener("DOMContentLoaded", function() {
                     audioChunks.push(event.data);
                 };
 
-                mediaRecorder.onstop = () => {
+                mediaRecorder.onstop = async () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    const audio = new Audio(audioUrl);
-                    audio.play();
-                    audioChunks = [];
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+                    const binaryData = Array.from(new Uint8Array(arrayBuffer));
 
-                    // Возвращаем форму в исходное состояние
+                    try {
+                        const response = await fetch('/get-voice2text', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ data: binaryData })
+                        });
+
+                        if (response.ok) {
+                            const result = await response.json();
+                            console.log("Успешно! Ответ от сервера:", result);
+                        } else {
+                            console.error("Ошибка при отправке данных на сервер");
+                        }
+                    } catch (error) {
+                        console.error("Ошибка при отправке данных на сервер:", error);
+                    }
+
                     messageBox.placeholder = "Запишите голосовое сообщение";
                     messageBox.classList.remove('recording');
                     sendIcon.src = '../styles/voice.svg';
                     isRecording = false;
+                    audioChunks = [];
                 };
 
                 mediaRecorder.start();
