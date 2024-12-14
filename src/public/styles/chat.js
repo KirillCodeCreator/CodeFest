@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const currentTime = new Date();
                     const hours = currentTime.getHours().toString().padStart(2, '0');
                     const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-                    const fileName = `${userId}_${hours}:${minutes}.ogg`;
+                    const fileName = `${userId}_${hours}-${minutes}.ogg`;
 
                     try {
                         const response = await fetch('/save-audio', {
