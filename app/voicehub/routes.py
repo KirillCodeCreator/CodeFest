@@ -1,4 +1,5 @@
 import base64
+import os
 
 from flask import Blueprint, jsonify, redirect, render_template, request
 from flask_login import current_user, login_required, login_user, logout_user
@@ -133,5 +134,33 @@ def get_voice2text():
         transcription = voice2text_function(decoded_data)
 
         return jsonify({"transcription": transcription})
+    except Exception as e:
+        print(str(e))
+        return jsonify({"error": str(e)}), 500
+
+
+@voicehub.route("/save-audio", methods=["POST"])
+def save_audio():
+    data = request.json.get("data")
+    fileName = request.json.get("fileName")
+
+    if data is None or fileName is None:
+        return jsonify({"error": "No data or file name provided"}), 400
+
+    try:
+        # Декодирование base64 обратно в бинарные данные
+        decoded_data = base64.b64decode(data)
+
+        # Создание папки cache, если она не существует
+        cache_dir = "./app/cache"
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+
+        # Сохранение файла в папке cache
+        file_path = os.path.join(cache_dir, fileName)
+        with open(file_path, "wb") as audio_file:
+            audio_file.write(decoded_data)
+
+        return jsonify({"message": "File saved successfully"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
