@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const helpBtn = document.getElementById('help-btn');
     const helpModal = document.getElementById('helpModal');
     const closeBtn = document.querySelector('.close-btn');
+    const messagesContainer = document.querySelector('.messages');
     let mediaRecorder;
     let audioChunks = [];
     let isRecording = false;
@@ -87,6 +88,13 @@ document.addEventListener("DOMContentLoaded", function() {
                         if (response.ok) {
                             const result = await response.json();
                             console.log("Успешно! Ответ от сервера:", result);
+
+                            // Отображение распознанного текста в чате
+                            const messageElement = document.createElement('div');
+                            messageElement.className = 'chat-message';
+                            messageElement.textContent = result.transcription;
+                            messagesContainer.appendChild(messageElement);
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
                         } else {
                             console.error("Ошибка при отправке данных на сервер");
                         }
