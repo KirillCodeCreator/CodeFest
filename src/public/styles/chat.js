@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     const binaryData = new Uint8Array(arrayBuffer);
                     const base64Data = btoa(String.fromCharCode(...binaryData));
 
-                    const userId = "{{ user.id }}"; // Передаем user.id из HTML
                     const currentTime = new Date();
                     const hours = currentTime.getHours().toString().padStart(2, '0');
                     const minutes = currentTime.getMinutes().toString().padStart(2, '0');
