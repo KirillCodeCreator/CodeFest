@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 };
 
                 mediaRecorder.onstop = async () => {
-                    sendIcon.src = '../styles/voice.svg'; // Возвращаем иконку назад
+                    sendIcon.src = '../styles/voice.svg';
                     messageBox.placeholder = "Запишите голосовое сообщение";
                     messageBox.classList.remove('recording');
                     isRecording = false;
@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function() {
                             const result = await response.json();
                             console.log("Успешно! Ответ от сервера:", result);
 
-                            // Отображение распознанного текста в чате
                             const messageElement = document.createElement('div');
                             messageElement.className = 'chat-message user';
                             messageElement.textContent = result.transcription;
@@ -116,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 sendIcon.src = '../styles/voice2.svg';
                 isRecording = true;
             } else {
-                sendIcon.src = '../styles/voice.svg'; // Возвращаем иконку назад
+                sendIcon.src = '../styles/voice.svg';
                 messageBox.placeholder = "Запишите голосовое сообщение";
                 messageBox.classList.remove('recording');
                 isRecording = false;
