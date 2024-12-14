@@ -326,6 +326,25 @@ body.dark-theme .message-input input {
     cursor: pointer;
 }
 
+/* Сообщения в чате */
+.chat-message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    max-width: 60%;
+    word-wrap: break-word;
+}
+
+.chat-message.user {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+}
+
+.chat-message.bot {
+    background-color: #f1f0f0;
+    align-self: flex-start;
+}
+
 /* Адаптивная верстка */
 @media (max-width: 768px) {
     .chat-container {

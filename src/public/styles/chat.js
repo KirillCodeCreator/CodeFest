@@ -65,6 +65,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 };
 
                 mediaRecorder.onstop = async () => {
+                    sendIcon.src = '../styles/voice.svg'; // Возвращаем иконку назад
+                    messageBox.placeholder = "Запишите голосовое сообщение";
+                    messageBox.classList.remove('recording');
+                    isRecording = false;
+
                     const audioBlob = new Blob(audioChunks, { type: 'audio/ogg' });
                     const arrayBuffer = await audioBlob.arrayBuffer();
                     const binaryData = new Uint8Array(arrayBuffer);
@@ -91,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             // Отображение распознанного текста в чате
                             const messageElement = document.createElement('div');
-                            messageElement.className = 'chat-message';
+                            messageElement.className = 'chat-message user';
                             messageElement.textContent = result.transcription;
                             messagesContainer.appendChild(messageElement);
                             messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -102,10 +107,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("Ошибка при отправке данных на сервер:", error);
                     }
 
-                    messageBox.placeholder = "Запишите голосовое сообщение";
-                    messageBox.classList.remove('recording');
-                    sendIcon.src = '../styles/voice.svg';
-                    isRecording = false;
                     audioChunks = [];
                 };
 
@@ -115,6 +116,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 sendIcon.src = '../styles/voice2.svg';
                 isRecording = true;
             } else {
+                sendIcon.src = '../styles/voice.svg'; // Возвращаем иконку назад
+                messageBox.placeholder = "Запишите голосовое сообщение";
+                messageBox.classList.remove('recording');
+                isRecording = false;
                 mediaRecorder.stop();
             }
         });
