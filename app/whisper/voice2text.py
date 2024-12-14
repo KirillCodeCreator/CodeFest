@@ -1,6 +1,3 @@
-import base64
-import io
-
 import librosa
 import torch
 from transformers import WhisperForConditionalGeneration, WhisperProcessor
@@ -10,15 +7,13 @@ model = WhisperForConditionalGeneration.from_pretrained(model_name)
 processor = WhisperProcessor.from_pretrained(model_name)
 
 
-def voice2text_function(voice_in_bin: str):
-    text = decode_bin_audio(base64.b64decode(voice_in_bin))
-    return text
+def voice2text_function(file_path):
+    model_name = "openai/whisper-large-v3-turbo"
+    model = WhisperForConditionalGeneration.from_pretrained(model_name)
+    processor = WhisperProcessor.from_pretrained(model_name)
 
-
-def decode_bin_audio(binary_data):
-    def load_audio_from_binary(binary_data):
-        audio_file = io.BytesIO(binary_data)
-        audio, sample_rate = librosa.load(audio_file, sr=16000)
+    def load_audio(file_path):
+        audio, sample_rate = librosa.load(file_path, sr=16000)
         return audio, sample_rate
 
     def preprocess_audio(audio, sample_rate):
@@ -27,8 +22,8 @@ def decode_bin_audio(binary_data):
         )
         return inputs
 
-    def recognize_speech(binary_data, segment_length=30):
-        audio, sample_rate = load_audio_from_binary(binary_data)
+    def recognize_speech(file_path, segment_length=30):
+        audio, sample_rate = load_audio(file_path)
         duration = librosa.get_duration(y=audio, sr=sample_rate)
         transcriptions = []
 
@@ -39,7 +34,6 @@ def decode_bin_audio(binary_data):
             ]  # noqa
             inputs = preprocess_audio(segment, sample_rate)
 
-            # Генерация текста
             with torch.no_grad():
                 generated_ids = model.generate(inputs["input_features"])
 
@@ -50,5 +44,5 @@ def decode_bin_audio(binary_data):
 
         return " ".join(transcriptions)
 
-    transcription = recognize_speech(binary_data)
+    transcription = recognize_speech(file_path)
     return transcription

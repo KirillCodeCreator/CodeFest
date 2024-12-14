@@ -6,6 +6,9 @@ from flask_login import current_user, login_required, login_user, logout_user
 
 from app.models import db_session
 from app.models.users import Users
+from app.voicehub.functions.make_treatment_of_user import (
+    add_treatment_to_data_base_function,
+)
 from app.whisper.voice2text import voice2text_function
 
 voicehub = Blueprint(
@@ -148,19 +151,24 @@ def save_audio():
         return jsonify({"error": "No data or file name provided"}), 400
 
     try:
-        # Декодирование base64 обратно в бинарные данные
         decoded_data = base64.b64decode(data)
-
-        # Создание папки cache, если она не существует
         cache_dir = "./app/cache"
         if not os.path.exists(cache_dir):
             os.makedirs(cache_dir)
 
-        # Сохранение файла в папке cache
         file_path = os.path.join(cache_dir, fileName)
         with open(file_path, "wb") as audio_file:
             audio_file.write(decoded_data)
-
-        return jsonify({"message": "File saved successfully"})
+        transcription = voice2text_function(file_path=file_path)
+        os.remove(file_path)
+        print(transcription)
+        print(
+            add_treatment_to_data_base_function(
+                user_id=current_user.id,
+                treatment=transcription,
+                db_session=db_ses,
+            )
+        )
+        return jsonify({"transcription": transcription})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
