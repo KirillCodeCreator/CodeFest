@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let audioChunks = [];
     let isRecording = false;
 
+    // Передаем user.id из HTML в JavaScript
+    const userId = "{{ user.id }}";
+
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
     });
@@ -71,7 +74,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     const currentTime = new Date();
                     const hours = currentTime.getHours().toString().padStart(2, '0');
                     const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-                    const fileName = `${userId}_${hours}-${minutes}.ogg`;
+                    const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+                    const fileName = `${userId}_${hours}-${minutes}-${seconds}.ogg`;
 
                     try {
                         const response = await fetch('/save-audio', {
