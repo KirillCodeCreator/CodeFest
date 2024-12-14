@@ -34,8 +34,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let audioChunks = [];
     let isRecording = false;
 
-    // Передаем user.id из HTML в JavaScript
-    const userId = "{{ user.id }}";
 
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
