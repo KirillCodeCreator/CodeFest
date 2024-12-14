@@ -63,10 +63,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 };
 
                 mediaRecorder.onstop = async () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/ogg' });
                     const arrayBuffer = await audioBlob.arrayBuffer();
                     const binaryData = new Uint8Array(arrayBuffer);
                     const base64Data = btoa(String.fromCharCode(...binaryData));
+
+                    const userId = "{{ user.id }}";
+                    const currentTime = new Date();
+                    const hours = currentTime.getHours().toString().padStart(2, '0');
+                    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+                    const fileName = `${userId}_${hours}:${minutes}.ogg`;
 
                     try {
                         const response = await fetch('/get-voice2text', {
@@ -74,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ data: base64Data })
+                            body: JSON.stringify({ data: base64Data, fileName: fileName })
                         });
 
                         if (response.ok) {
