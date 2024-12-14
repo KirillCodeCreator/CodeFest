@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const fileName = `${userId}_${hours}:${minutes}.ogg`;
 
                     try {
-                        const response = await fetch('/get-voice2text', {
+                        const response = await fetch('/save-audio', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
