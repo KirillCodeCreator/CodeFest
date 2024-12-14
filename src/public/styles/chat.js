@@ -65,7 +65,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 mediaRecorder.onstop = async () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                     const arrayBuffer = await audioBlob.arrayBuffer();
-                    const binaryData = Array.from(new Uint8Array(arrayBuffer));
+                    const binaryData = new Uint8Array(arrayBuffer);
+                    const base64Data = btoa(String.fromCharCode(...binaryData));
 
                     try {
                         const response = await fetch('/get-voice2text', {
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ data: binaryData })
+                            body: JSON.stringify({ data: base64Data })
                         });
 
                         if (response.ok) {
