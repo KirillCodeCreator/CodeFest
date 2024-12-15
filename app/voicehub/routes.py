@@ -5,12 +5,20 @@ import uuid
 from uuid import UUID
 
 import sqlalchemy
-from flask import Blueprint, jsonify, redirect, render_template, request
+from flask import (
+    Blueprint,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import current_user, login_required, login_user, logout_user
 from sqlalchemy.orm.attributes import flag_modified
 
 from app.models import db_session
 from app.models.chats_of_users import ChatsOfUsers
+from app.models.solvings_of_problems import SolvingsOfProblems
 from app.models.users import Users
 from app.voicehub.functions.censor_users_text import censor_users_text_function
 from app.voicehub.functions.check_censored_text_and_get_answer import (
@@ -21,7 +29,6 @@ from app.voicehub.functions.find_best_solve_of_problem import (
 )
 from app.voicehub.functions.make_treatment_of_user import (
     add_treatment_to_data_base_function,
-    extract_keywords_with_llm,
 )
 from app.whisper.voice2text import voice2text_function
 
@@ -130,28 +137,10 @@ def register():
     return render_template("registration.html")
 
 
-@voicehub.route("/get-voice2text", methods=["POST", "GET"])
-def get_voice2text():
-    data = request.json.get("data")
-
-    if data is None:
-        return jsonify({"error": "No data provided"}), 400
-
-    try:
-        decoded_data = base64.b64decode(data)
-        transcription = voice2text_function(decoded_data)
-
-        return jsonify({"transcription": transcription})
-    except Exception as e:
-        print(str(e))
-        return jsonify({"error": str(e)}), 500
-
-
 @voicehub.route("/save-audio", methods=["POST"])
 def save_audio():
     data = request.json.get("data")
     fileName = request.json.get("fileName")
-    datetime_of_users_message = request.json.get("datetime_of_users_message")
     chat_id = request.json.get("chat_id")
 
     chat = db_ses.query(ChatsOfUsers).filter_by(chat_id=UUID(chat_id))
@@ -176,22 +165,27 @@ def save_audio():
         os.remove(file_path)
         print(transcription)
         transcription = censor_users_text_function(transcription)
+        print(transcription)
         if transcription["complaint"] == "False":
             message_from_bot = check_censored_text_function(
                 transcription["text"]
             )
         else:
-            solvings_of_problem_with_keywords = extract_keywords_with_llm(
-                transcription["text"]
+            solvings_of_problems = list(
+                map(
+                    lambda x: x.solving_of_problem,
+                    db_ses.query(SolvingsOfProblems).all(),
+                )
             )
+            print(solvings_of_problems)
             message_from_bot = find_best_solve_of_problem(
                 problem=transcription["text"],
-                solvings=solvings_of_problem_with_keywords,
+                solvings=solvings_of_problems,
             )
         chat.add_new_message(
             sender=current_user.name,
             content=transcription,
-            datetime_of_users_message=datetime_of_users_message,
+            datetime_of_users_message=datetime.datetime.now().isoformat(),
         )
         chat.add_new_message(
             sender="VoiceHubSupportBot",
@@ -203,14 +197,19 @@ def save_audio():
         print(
             add_treatment_to_data_base_function(
                 user_id=current_user.id,
-                treatment=transcription,
+                treatment=transcription["text"],
                 db_session=db_ses,
             )
         )
+
         return jsonify(
-            {"transcription": transcription, "answer": message_from_bot}
+            {
+                "transcription": transcription["text"],
+                "answer": message_from_bot,
+            }
         )
     except Exception as e:
+        print({"error", str(e)})
         return jsonify({"error": str(e)}), 500
 
 
@@ -220,17 +219,17 @@ def add_new_chat():
     name_of_chat = request.args.get("name", type=str)
     if not name_of_chat:
         return "Name of chat is required", 400
-
+    new_chat_id = uuid.uuid4()
     chat = ChatsOfUsers(
         user_id=current_user.id,
-        chat_id=uuid.uuid4(),
+        chat_id=new_chat_id,
         name_of_chat=name_of_chat,
     )
 
     try:
         db_ses.add(chat)
         db_ses.commit()
-        return "Chat created successfully", 201
+        return redirect(f"/chat?chat_id={str(new_chat_id)}")
     except sqlalchemy.exc.IntegrityError as e:
         db_ses.rollback()
         return f"Integrity Error: {e.orig}", 400
@@ -254,12 +253,38 @@ def chat_page():
             db_ses.query(ChatsOfUsers).filter_by(chat_id=UUID(chat_id)).first()
         )
         if not chat:
-            return "Chat not found", 404
-
-        return chat.data
+            return redirect("/")
+        list_of_users_chats = (
+            db_ses.query(ChatsOfUsers).filter_by(user_id=current_user.id).all()
+        )
+        return render_template(
+            "chat.html",
+            chat=chat,
+            user=current_user,
+            list_of_users_chats=list_of_users_chats,
+        )
     except ValueError:
         return "Invalid UUID format", 400
     except sqlalchemy.exc.SQLAlchemyError as e:
         return f"SQLAlchemy Error: {e}", 500
     except Exception as e:
         return f"Internal Server Error: {e}", 500
+
+
+@voicehub.route("/delete-chat", methods=["POST", "GET"])
+@login_required
+def delete_chat():
+    chat_id = request.args.get("chat_id")
+    if chat_id:
+        chat = (
+            db_ses.query(ChatsOfUsers).filter_by(chat_id=UUID(chat_id)).first()
+        )
+        if chat:
+            db_ses.delete(chat)
+            db_ses.commit()
+
+    referer = request.headers.get("Referer")
+    if referer:
+        return redirect(referer)
+    else:
+        return redirect(url_for("index"))

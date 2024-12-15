@@ -113,6 +113,7 @@ body.dark-theme .help-btn {
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
+
 .dropdown-content.show {
     display: block;
 }
@@ -164,7 +165,9 @@ body.dark-theme .help-btn {
 .chat-item {
     padding: 15px 20px;
     border-bottom: 1px solid #ddd;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .chat-item.active {
@@ -309,9 +312,12 @@ body.dark-theme .help-btn {
     max-width: 500px;
     position: relative;
 }
+
 body.dark-theme .modal-content {
-    background-color: #1e1e1e; /* Фон модального окна */
-    color: #ffffff; /* Цвет текста */
+    background-color: #1e1e1e;
+    /* Фон модального окна */
+    color: #ffffff;
+    /* Цвет текста */
 }
 
 .close-btn {
@@ -338,12 +344,13 @@ body.dark-theme .modal-content {
 }
 
 .chat-message.user {
-    background-color: #dcf8c6;
+    background-color: #8cdbff;
     align-self: flex-end;
 }
 
 .chat-message.bot {
-    background-color: #f1f0f0;
+    background-color: #004261;
+    color: #fff;
     align-self: flex-start;
 }
 
@@ -418,9 +425,11 @@ body.dark-theme .modal-content {
         height: auto;
     }
 }
+
 .modal-content {
-    color: #00000
+    color: #000000;
 }
+
 /* Модальное окно */
 .modal {
     display: none;
@@ -446,8 +455,10 @@ body.dark-theme .modal-content {
 }
 
 body.dark-theme .modal-content {
-    background-color: #1e1e1e; /* Фон модального окна */
-    color: #ffffff; /* Цвет текста */
+    background-color: #1e1e1e;
+    /* Фон модального окна */
+    color: #ffffff;
+    /* Цвет текста */
 }
 
 .close-btn {
@@ -489,15 +500,17 @@ body.dark-theme .modal-content {
 #newChatModal button:hover {
     background-color: #0056b3;
 }
-.chat-section-index{
+
+.chat-section-index {
     font-weight: bold;
     font-size: 30px;
     height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
-
-
-
 }
 
+.trash-a,
+.chat-link {
+    color: #5a5a5a;
+}

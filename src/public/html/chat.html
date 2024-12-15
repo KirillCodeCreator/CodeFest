@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/chat.css">
 </head>
+
 <body>
     <div class="chat-container">
         <aside class="sidebar">
@@ -19,23 +21,36 @@
                         <div class="dropdown-content">
                             <a href="/logout">Выйти</a>
                         </div>
-                    <span class="profile-name">Здравствуйте, {{user.name}}!</span>
+                        <span class="profile-name">Здравствуйте, {{user.name}}!</span>
                     </div>
                 </div>
                 <div class="search">
                     <input type="text" placeholder="Поиск по чатам" class="search-input">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt="Search" class="search-icon">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt="Search"
+                        class="search-icon">
                 </div>
             </header>
             <div class="chats">
                 <ul class="chat-list">
-                    <li class="chat-item active">Новый чат</li>
-                    <li class="chat-item">Новый чат 2</li>
+                    {% for i in list_of_users_chats %}
+                    <li class="chat-item">
+                        <a class="chat-link" href="/chat?chat_id={{ i.chat_id }}">{{ i.name_of_chat }}</a>
+                        <a class="trash-a" href="/delete-chat?chat_id={{ i.chat_id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash" viewBox="0 0 16 16">
+                                <path
+                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path
+                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </a>
+                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <footer class="sidebar-footer">
                 <button class="settings-btn" id="theme-toggle">
-                    <img src="../styles/settings.svg" alt="Settings" class="settings-icon">
+                    <img src="../styles/moon.svg" alt="Settings" class="settings-icon">
                     Тема
                 </button>
                 <button class="help-btn" id="help-btn">
@@ -68,7 +83,8 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2>ЗАПИСЬ ГОЛОСА</h2>
-            <p>Для корректной работы программы, Вам необходимо подождать 1 секунду после начала записи и говорить разборчиво, понятно. Удачи!</p>
+            <p>Для корректной работы программы, Вам необходимо подождать 1 секунду после начала записи и говорить
+                разборчиво, понятно. Удачи!</p>
         </div>
     </div>
 
@@ -83,7 +99,9 @@
 
     <script>
         const userId = "{{ user.id }}";
+        const chatId = "{{ chat.chat_id }}";
     </script>
     <script src="../styles/chat.js"></script>
 </body>
+
 </html>

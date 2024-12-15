@@ -1,6 +1,6 @@
 """Главный модуль проекта."""
 
-from flask import Flask
+from flask import Flask, redirect, render_template, url_for
 from flask_admin import Admin, AdminIndexView
 from flask_babel import Babel
 from flask_login import LoginManager
@@ -23,7 +23,11 @@ def create_app() -> Flask:
     Returns:
         Flask: app с названием __name__ и классом Flask
     """
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        template_folder="../src/public/html",
+        static_folder="../src/public/styles",
+    )
     app.config.from_object(config)
     db_session.global_init(config.DATABASE_URI)
     db_ses = db_session.create_session()
@@ -68,32 +72,22 @@ def create_app() -> Flask:
         """Загрузка юзера"""
         return db_ses.query(Users).get(user_id)
 
-    # @app.route("/unauthorized")
-    # def unauthorized():
-    #     """Страница для неавторизованных пользователей"""
-    #     return (
-    #         render_template("./errors/unauth.html", title="Войдите в аккаунт"),
-    #         401,
-    #     )
+    @app.route("/not-found")
+    def not_found():
+        """Страница для ненайденных страниц"""
+        return (
+            render_template("404.html"),
+            404,
+        )
 
-    # @app.route("/not-found")
-    # def not_found():
-    #     """Страница для ненайденных страниц"""
-    #     return (
-    #         render_template("./errors/404.html", title="404 Not Found"),
-    #         404,
-    #     )
+    @app.errorhandler(404)
+    def custom_404(error):
+        """Кастомный обработчик 404 ошибки"""
+        return redirect(url_for("not_found"))
 
-    # # Обработчик ошибки 404
-    # @app.errorhandler(404)
-    # def custom_404(error):
-    #     """Кастомный обработчик 404 ошибки"""
-    #     return redirect(url_for("not_found"))
-
-    # # Обработчик ошибки 401
-    # @app.errorhandler(401)
-    # def custom_401(error):
-    #     """Кастомный обработчик 401 ошибки"""
-    #     return redirect(url_for("unauthorized"))
+    @app.errorhandler(401)
+    def custom_401(error):
+        """Кастомный обработчик 401 ошибки"""
+        return redirect("/login")
 
     return app

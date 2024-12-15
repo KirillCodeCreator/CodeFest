@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/ogg' });
                     const arrayBuffer = await audioBlob.arrayBuffer();
                     const binaryData = new Uint8Array(arrayBuffer);
-                    const chunkSize = 1024 * 1024; // Размер чанка (1 MB)
+                    const chunkSize = 1024 * 512;
                     let base64String = '';
 
                     for (let i = 0; i < binaryData.length; i += chunkSize) {
@@ -127,18 +127,26 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ data: base64String, fileName: fileName })
+                            body: JSON.stringify({ data: base64String, fileName: fileName, chat_id: chatId })
                         });
 
                         if (response.ok) {
                             const result = await response.json();
                             console.log("Успешно! Ответ от сервера:", result);
 
-                            // Отображение распознанного текста в чате
+                            // Создаем элемент для сообщения пользователя
                             const messageElement = document.createElement('div');
                             messageElement.className = 'chat-message user';
                             messageElement.textContent = result.transcription;
                             messagesContainer.appendChild(messageElement);
+
+                            // Создаем элемент для сообщения бота
+                            const messageBotElement = document.createElement('div');
+                            messageBotElement.className = 'chat-message bot';
+                            messageBotElement.textContent = result.answer;
+                            messagesContainer.appendChild(messageBotElement);
+
+                            // Прокручиваем контейнер сообщений вниз
                             messagesContainer.scrollTop = messagesContainer.scrollHeight;
                         } else {
                             console.error("Ошибка при отправке данных на сервер");
