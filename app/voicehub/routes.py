@@ -1,10 +1,13 @@
 import base64
 import os
+import uuid
+from uuid import UUID
 
 from flask import Blueprint, jsonify, redirect, render_template, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app.models import db_session
+from app.models.chats_of_users import ChatsOfUsers
 from app.models.users import Users
 from app.voicehub.functions.make_treatment_of_user import (
     add_treatment_to_data_base_function,
@@ -109,19 +112,6 @@ def register():
     return render_template("registration.html")
 
 
-@voicehub.route(
-    "/chat",
-    methods=[
-        "POST",
-        "GET",
-    ],
-)
-@login_required
-def chat():
-    uuid = request.args.get("uuid", default=None, type=str)
-    return uuid
-
-
 @voicehub.route("/get-voice2text", methods=["POST", "GET"])
 def get_voice2text():
     data = request.json.get("data")
@@ -172,3 +162,42 @@ def save_audio():
         return jsonify({"transcription": transcription})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@voicehub.route("/add-new-chat", methods=["POST", "GET"])
+@login_required
+def add_new_chat():
+    name_of_chat = request.args.get("name", type=str)
+    chat = ChatsOfUsers(
+        user_id=current_user.id,
+        chat_id=uuid.uuid4(),
+        name_of_chat=name_of_chat,
+    )
+    db_ses.add(chat)
+    db_ses.commit()
+    return name_of_chat
+
+
+@voicehub.route("/chat", methods=["POST", "GET"])
+@login_required
+def chat_page():
+    chat_id = request.args.get("chat_id", type=str)
+    chat_data = (
+        db_ses.query(ChatsOfUsers)
+        .filter_by(chat_id=UUID(chat_id))
+        .first()
+        .data
+    )
+    print(
+        type(
+            db_ses.query(ChatsOfUsers)
+            .filter_by(chat_id=UUID(chat_id))
+            .first()
+            .chat_id
+        ),
+        db_ses.query(ChatsOfUsers)
+        .filter_by(chat_id=UUID(chat_id))
+        .first()
+        .chat_id,
+    )
+    return jsonify(chat_data)

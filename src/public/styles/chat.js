@@ -1,10 +1,10 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector(".search-input");
     const searchIcon = document.querySelector(".search-icon");
     const chatItems = document.querySelectorAll(".chat-item");
     let lastActiveChat = document.querySelector(".chat-item.active");
 
-    searchIcon.addEventListener("click", function() {
+    searchIcon.addEventListener("click", function () {
         const query = searchInput.value.toLowerCase();
         let found = false;
 
@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let audioChunks = [];
     let isRecording = false;
 
+
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
     });
@@ -61,20 +62,59 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 mediaRecorder.ondataavailable = event => {
                     audioChunks.push(event.data);
-                    if (audioChunks.length >= 10) {
-                        sendAudioChunks();
-                    }
                 };
 
                 mediaRecorder.onstop = async () => {
-                    sendIcon.src = '../styles/voice.svg';
+                    sendIcon.src = '../styles/voice.svg'; // Возвращаем иконку назад
                     messageBox.placeholder = "Запишите голосовое сообщение";
                     messageBox.classList.remove('recording');
                     isRecording = false;
 
-                    if (audioChunks.length > 0) {
-                        sendAudioChunks();
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/ogg' });
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+                    const binaryData = new Uint8Array(arrayBuffer);
+                    const chunkSize = 1024 * 1024; // Размер чанка (1 MB)
+                    let base64String = '';
+
+                    for (let i = 0; i < binaryData.length; i += chunkSize) {
+                        const chunk = binaryData.subarray(i, i + chunkSize);
+                        const chunkString = String.fromCharCode(...chunk);
+                        base64String += btoa(chunkString);
                     }
+
+                    const currentTime = new Date();
+                    const hours = currentTime.getHours().toString().padStart(2, '0');
+                    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+                    const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+                    const fileName = `${userId}_${hours}-${minutes}-${seconds}.ogg`;
+
+                    try {
+                        const response = await fetch('/save-audio', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ data: base64String, fileName: fileName })
+                        });
+
+                        if (response.ok) {
+                            const result = await response.json();
+                            console.log("Успешно! Ответ от сервера:", result);
+
+                            // Отображение распознанного текста в чате
+                            const messageElement = document.createElement('div');
+                            messageElement.className = 'chat-message user';
+                            messageElement.textContent = result.transcription;
+                            messagesContainer.appendChild(messageElement);
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        } else {
+                            console.error("Ошибка при отправке данных на сервер");
+                        }
+                    } catch (error) {
+                        console.error("Ошибка при отправке данных на сервер:", error);
+                    }
+
+                    audioChunks = [];
                 };
 
                 mediaRecorder.start();
@@ -83,50 +123,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 sendIcon.src = '../styles/voice2.svg';
                 isRecording = true;
             } else {
+                sendIcon.src = '../styles/voice.svg'; // Возвращаем иконку назад
+                messageBox.placeholder = "Запишите голосовое сообщение";
+                messageBox.classList.remove('recording');
+                isRecording = false;
                 mediaRecorder.stop();
             }
         });
     } else {
         console.error('Обновите Ваш браузер для корректной работы голосового ввода!');
-    }
-
-    async function sendAudioChunks() {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/ogg' });
-        const arrayBuffer = await audioBlob.arrayBuffer();
-        const binaryData = new Uint8Array(arrayBuffer);
-        const base64Data = btoa(String.fromCharCode(...binaryData));
-
-        const currentTime = new Date();
-        const hours = currentTime.getHours().toString().padStart(2, '0');
-        const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-        const seconds = currentTime.getSeconds().toString().padStart(2, '0');
-        const fileName = `${userId}_${hours}-${minutes}-${seconds}.ogg`;
-
-        try {
-            const response = await fetch('/save-audio', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ data: base64Data, fileName: fileName })
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log("Успешно! Ответ от сервера:", result);
-
-                const messageElement = document.createElement('div');
-                messageElement.className = 'chat-message user';
-                messageElement.textContent = result.transcription;
-                messagesContainer.appendChild(messageElement);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            } else {
-                console.error("Ошибка при отправке данных на сервер");
-            }
-        } catch (error) {
-            console.error("Ошибка при отправке данных на сервер:", error);
-        }
-
-        audioChunks = [];
     }
 });

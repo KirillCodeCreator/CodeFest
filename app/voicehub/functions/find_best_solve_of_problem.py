@@ -1,4 +1,5 @@
 import json
+import time
 
 from dotenv import dotenv_values
 from mistralai import Mistral
@@ -49,4 +50,27 @@ def find_best_solve_of_problem(problem: str, solvings: list[str]) -> str:
             "type": "json_object",
         },
     )
+    time.sleep(1)
     return json.loads(response.choices[0].message.content)["solving"]
+
+
+# print(
+#     find_best_solve_of_problem(
+#         problem="Мой интернет не работает.",
+#         solvings=[
+#             "Проверьте, подключен ли кабель интернета.",
+#             "Перезагрузите роутер.",
+#             "Обратитесь к провайдеру.",
+#         ],
+#     )
+# )
+# print(
+#     find_best_solve_of_problem(
+#         problem="Мой компьютер не включается.",
+#         solvings=[
+#             "Проверьте, подключен ли кабель питания.",
+#             "Перезагрузите компьютер.",
+#             "Обратитесь в сервисный центр.",
+#         ],
+#     )
+# )

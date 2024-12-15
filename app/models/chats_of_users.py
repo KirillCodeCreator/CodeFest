@@ -11,4 +11,5 @@ class ChatsOfUsers(SqlAlchemyBase):
     )
     user_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     chat_id = sqlalchemy.Column(sqlalchemy.UUID, unique=True)
-    data = sqlalchemy.Column(sqlalchemy.JSON, nullable=False)
+    data = sqlalchemy.Column(sqlalchemy.JSON, nullable=True)
+    name_of_chat = sqlalchemy.Column(sqlalchemy.String, nullable=False)
