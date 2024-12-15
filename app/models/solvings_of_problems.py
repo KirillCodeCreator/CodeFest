@@ -4,6 +4,8 @@ from app.models.db_session import SqlAlchemyBase
 
 
 class SolvingsOfProblems(SqlAlchemyBase):
+    """Модель решений вопросов"""
+
     __tablename__ = "solvings_of_problems"
 
     id = sqlalchemy.Column(

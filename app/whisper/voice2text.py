@@ -7,7 +7,15 @@ model = WhisperForConditionalGeneration.from_pretrained(model_name)
 processor = WhisperProcessor.from_pretrained(model_name)
 
 
-def voice2text_function(file_path):
+def voice2text_function(file_path: str) -> str:
+    """Преобразует аудиофайл в его текстовую расшифровку
+
+    Args:
+        file_path (str): Путь к файлу относительно run.py
+
+    Returns:
+        str: Текстовая расшифровка файла
+    """
     model_name = "openai/whisper-large-v3-turbo"
     model = WhisperForConditionalGeneration.from_pretrained(model_name)
     processor = WhisperProcessor.from_pretrained(model_name)

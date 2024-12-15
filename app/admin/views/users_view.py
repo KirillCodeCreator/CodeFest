@@ -2,6 +2,8 @@ from .base_view import BaseView
 
 
 class UsersView(BaseView):
+    """Вьюха юзеров"""
+
     can_create = False
     column_list = (
         "id",

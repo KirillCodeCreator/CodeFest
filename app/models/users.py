@@ -6,6 +6,8 @@ from app.models.db_session import SqlAlchemyBase
 
 
 class Users(SqlAlchemyBase, UserMixin):
+    """Модель юзеров"""
+
     __tablename__ = "users"
 
     id = sqlalchemy.Column(

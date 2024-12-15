@@ -2,6 +2,8 @@ from .base_view import BaseView
 
 
 class SolvingsOfProblemsView(BaseView):
+    """Вьюха решений"""
+
     column_list = ("id", "key_words", "solving_of_problem")
     column_filters = ("key_words",)
     column_labels = {

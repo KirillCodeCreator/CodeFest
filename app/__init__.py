@@ -1,23 +1,28 @@
+"""Главный модуль проекта."""
+
 from flask import Flask
 from flask_admin import Admin, AdminIndexView
 from flask_babel import Babel
 from flask_login import LoginManager
 
 from app.admin.localization.admin_localization import get_locale
-from app.admin.views.notifications_views import NotificationsView
 from app.admin.views.solvings_of_problems_view import SolvingsOfProblemsView
 from app.admin.views.treatments_of_users_view import TreatmentsOfUsersView
 from app.admin.views.users_view import UsersView
 from app.config import config
 from app.models import db_session
-from app.models.notifications import Notifications
 from app.models.solvings_of_problems import SolvingsOfProblems
 from app.models.treatments_of_users import TreatmentsOfUsers
 from app.models.users import Users
 from app.voicehub.routes import voicehub
 
 
-def create_app():
+def create_app() -> Flask:
+    """Создает сессию Flask
+
+    Returns:
+        Flask: app с названием __name__ и классом Flask
+    """
     app = Flask(__name__)
     app.config.from_object(config)
     db_session.global_init(config.DATABASE_URI)
@@ -36,11 +41,6 @@ def create_app():
             Users,
             db_ses,
             name="Пользователи",
-        ),
-        NotificationsView(
-            Notifications,
-            db_ses,
-            name="Уведомления",
         ),
         SolvingsOfProblemsView(
             SolvingsOfProblems,

@@ -2,6 +2,8 @@ from .base_view import BaseView
 
 
 class TreatmentsOfUsersView(BaseView):
+    """Вьюха проблем"""
+
     column_list = (
         "id",
         "description",

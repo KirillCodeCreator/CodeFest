@@ -3,8 +3,10 @@ import os
 import uuid
 from uuid import UUID
 
+import sqlalchemy
 from flask import Blueprint, jsonify, redirect, render_template, request
 from flask_login import current_user, login_required, login_user, logout_user
+from sqlalchemy.orm.attributes import flag_modified
 
 from app.models import db_session
 from app.models.chats_of_users import ChatsOfUsers
@@ -33,7 +35,14 @@ db_ses = db_session.create_session()
 )
 def index():
     if current_user.is_authenticated:
-        return render_template("main-page.html", user=current_user)
+        list_of_users_chats = (
+            db_ses.query(ChatsOfUsers).filter_by(user_id=current_user.id).all()
+        )
+        return render_template(
+            "main-page.html",
+            user=current_user,
+            list_of_users_chats=list_of_users_chats,
+        )
     else:
         return redirect("/login")
 
@@ -120,10 +129,7 @@ def get_voice2text():
         return jsonify({"error": "No data provided"}), 400
 
     try:
-        # Декодирование base64 обратно в бинарные данные
         decoded_data = base64.b64decode(data)
-
-        # Распознавание речи
         transcription = voice2text_function(decoded_data)
 
         return jsonify({"transcription": transcription})
@@ -136,6 +142,10 @@ def get_voice2text():
 def save_audio():
     data = request.json.get("data")
     fileName = request.json.get("fileName")
+    datetime_of_users_message = request.json.get("datetime_of_users_message")
+    chat_id = request.json.get("chat_id")
+
+    chat = db_ses.query(ChatsOfUsers).filter_by(chat_id=UUID(chat_id)).first()
 
     if data is None or fileName is None:
         return jsonify({"error": "No data or file name provided"}), 400
@@ -168,36 +178,48 @@ def save_audio():
 @login_required
 def add_new_chat():
     name_of_chat = request.args.get("name", type=str)
+    if not name_of_chat:
+        return "Name of chat is required", 400
+
     chat = ChatsOfUsers(
         user_id=current_user.id,
         chat_id=uuid.uuid4(),
         name_of_chat=name_of_chat,
     )
-    db_ses.add(chat)
-    db_ses.commit()
-    return name_of_chat
+
+    try:
+        db_ses.add(chat)
+        db_ses.commit()
+        return "Chat created successfully", 201
+    except sqlalchemy.exc.IntegrityError as e:
+        db_ses.rollback()
+        return f"Integrity Error: {e.orig}", 400
+    except sqlalchemy.exc.SQLAlchemyError as e:
+        db_ses.rollback()
+        return f"SQLAlchemy Error: {e}", 500
+    except Exception as e:
+        db_ses.rollback()
+        return f"Internal Server Error: {e}", 500
 
 
 @voicehub.route("/chat", methods=["POST", "GET"])
 @login_required
 def chat_page():
     chat_id = request.args.get("chat_id", type=str)
-    chat_data = (
-        db_ses.query(ChatsOfUsers)
-        .filter_by(chat_id=UUID(chat_id))
-        .first()
-        .data
-    )
-    print(
-        type(
-            db_ses.query(ChatsOfUsers)
-            .filter_by(chat_id=UUID(chat_id))
-            .first()
-            .chat_id
-        ),
-        db_ses.query(ChatsOfUsers)
-        .filter_by(chat_id=UUID(chat_id))
-        .first()
-        .chat_id,
-    )
-    return jsonify(chat_data)
+    if not chat_id:
+        return "Chat ID is required", 400
+
+    try:
+        chat = (
+            db_ses.query(ChatsOfUsers).filter_by(chat_id=UUID(chat_id)).first()
+        )
+        if not chat:
+            return "Chat not found", 404
+
+        return chat.data
+    except ValueError:
+        return "Invalid UUID format", 400
+    except sqlalchemy.exc.SQLAlchemyError as e:
+        return f"SQLAlchemy Error: {e}", 500
+    except Exception as e:
+        return f"Internal Server Error: {e}", 500

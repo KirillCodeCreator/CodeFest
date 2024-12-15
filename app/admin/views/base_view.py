@@ -4,6 +4,8 @@ from flask_admin.contrib.sqla import ModelView
 
 
 class BaseView(ModelView):
+    """Базовая вьюха для админки"""
+
     can_create = True
     can_edit = True
     can_delete = True

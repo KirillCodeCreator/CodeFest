@@ -4,6 +4,8 @@ from app.models.db_session import SqlAlchemyBase
 
 
 class TreatmentsOfUsers(SqlAlchemyBase):
+    """Модель вопросов юзеров"""
+
     __tablename__ = "treatments_of_users"
 
     id = sqlalchemy.Column(
