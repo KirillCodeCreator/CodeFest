@@ -1,5 +1,3 @@
-import datetime
-
 import sqlalchemy
 
 from app.models.db_session import SqlAlchemyBase

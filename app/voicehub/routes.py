@@ -1,4 +1,5 @@
 import base64
+import datetime
 import os
 import uuid
 from uuid import UUID
@@ -11,8 +12,16 @@ from sqlalchemy.orm.attributes import flag_modified
 from app.models import db_session
 from app.models.chats_of_users import ChatsOfUsers
 from app.models.users import Users
+from app.voicehub.functions.censor_users_text import censor_users_text_function
+from app.voicehub.functions.check_censored_text_and_get_answer import (
+    check_censored_text_function,
+)
+from app.voicehub.functions.find_best_solve_of_problem import (
+    find_best_solve_of_problem,
+)
 from app.voicehub.functions.make_treatment_of_user import (
     add_treatment_to_data_base_function,
+    extract_keywords_with_llm,
 )
 from app.whisper.voice2text import voice2text_function
 
@@ -145,7 +154,11 @@ def save_audio():
     datetime_of_users_message = request.json.get("datetime_of_users_message")
     chat_id = request.json.get("chat_id")
 
-    chat = db_ses.query(ChatsOfUsers).filter_by(chat_id=UUID(chat_id)).first()
+    chat = db_ses.query(ChatsOfUsers).filter_by(chat_id=UUID(chat_id))
+    if chat:
+        chat = chat.first()
+    else:
+        return "Chat not found", 404
 
     if data is None or fileName is None:
         return jsonify({"error": "No data or file name provided"}), 400
@@ -162,6 +175,31 @@ def save_audio():
         transcription = voice2text_function(file_path=file_path)
         os.remove(file_path)
         print(transcription)
+        transcription = censor_users_text_function(transcription)
+        if transcription["complaint"] == "False":
+            message_from_bot = check_censored_text_function(
+                transcription["text"]
+            )
+        else:
+            solvings_of_problem_with_keywords = extract_keywords_with_llm(
+                transcription["text"]
+            )
+            message_from_bot = find_best_solve_of_problem(
+                problem=transcription["text"],
+                solvings=solvings_of_problem_with_keywords,
+            )
+        chat.add_new_message(
+            sender=current_user.name,
+            content=transcription,
+            datetime_of_users_message=datetime_of_users_message,
+        )
+        chat.add_new_message(
+            sender="VoiceHubSupportBot",
+            content=message_from_bot,
+            datetime_of_users_message=datetime.datetime.now().isoformat(),
+        )
+        flag_modified(chat, "data")
+
         print(
             add_treatment_to_data_base_function(
                 user_id=current_user.id,
@@ -169,7 +207,9 @@ def save_audio():
                 db_session=db_ses,
             )
         )
-        return jsonify({"transcription": transcription})
+        return jsonify(
+            {"transcription": transcription, "answer": message_from_bot}
+        )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
