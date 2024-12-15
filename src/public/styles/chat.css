@@ -53,6 +53,11 @@ body.dark-theme .message-input input {
     color: #ffffff;
 }
 
+body.dark-theme .settings-btn,
+body.dark-theme .help-btn {
+    color: #ffffff;
+}
+
 .chat-container {
     display: flex;
     width: 100%;
@@ -107,6 +112,9 @@ body.dark-theme .message-input input {
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+}
+.dropdown-content.show {
+    display: block;
 }
 
 .dropdown-content a {
@@ -189,11 +197,6 @@ body.dark-theme .message-input input {
     align-items: center;
 }
 
-.settings-btn:hover,
-.help-btn:hover {
-    background-color: #e6f7ff;
-}
-
 .settings-icon,
 .help-icon {
     width: 20px;
@@ -267,11 +270,6 @@ body.dark-theme .message-input input {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#message-box.recording {
-    background-color: #007bff;
-    color: #fff;
-}
-
 .send-btn {
     background-color: transparent;
     border: none;
@@ -299,7 +297,7 @@ body.dark-theme .message-input input {
     height: 100%;
     overflow: auto;
     background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .modal-content {
@@ -310,6 +308,10 @@ body.dark-theme .message-input input {
     width: 80%;
     max-width: 500px;
     position: relative;
+}
+body.dark-theme .modal-content {
+    background-color: #1e1e1e; /* Фон модального окна */
+    color: #ffffff; /* Цвет текста */
 }
 
 .close-btn {
@@ -416,3 +418,86 @@ body.dark-theme .message-input input {
         height: auto;
     }
 }
+.modal-content {
+    color: #00000
+}
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+body.dark-theme .modal-content {
+    background-color: #1e1e1e; /* Фон модального окна */
+    color: #ffffff; /* Цвет текста */
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#newChatModal input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#newChatModal button {
+    background-color: #204064;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#newChatModal button:hover {
+    background-color: #0056b3;
+}
+.chat-section-index{
+    font-weight: bold;
+    font-size: 30px;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+
+}
+

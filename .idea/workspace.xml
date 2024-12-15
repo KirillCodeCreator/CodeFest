@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3cac6353-16f2-4259-9eaf-314775c8fe34" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/public/html/404.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/html/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/styles/404.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/styles/logo_dark.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/styles/moon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/styles/sun.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/voicehub/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/voicehub/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/whisper/voice2text.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/whisper/voice2text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/html/main-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/html/main-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/styles/chat.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/styles/chat.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/styles/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/styles/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/styles/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/styles/logo.svg" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2qG26bY0wf4s4WG0OS11O2OEqHx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "alex",
+    "last_opened_file_path": "C:/Users/User/PycharmProjects/CodeFest/src/public/html"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\PycharmProjects\CodeFest\src\public\html" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\PycharmProjects\CodeFest\src\public\styles" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3cac6353-16f2-4259-9eaf-314775c8fe34" name="Changes" comment="" />
+      <created>1734274418519</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1734274418519</updated>
+    </task>
+    <servers />
+  </component>
+</project>

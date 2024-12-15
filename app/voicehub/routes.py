@@ -48,7 +48,7 @@ def index():
             db_ses.query(ChatsOfUsers).filter_by(user_id=current_user.id).all()
         )
         return render_template(
-            "main-page.html",
+            "index.html",
             user=current_user,
             list_of_users_chats=list_of_users_chats,
         )

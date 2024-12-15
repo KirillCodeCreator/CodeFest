@@ -31,13 +31,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const helpModal = document.getElementById('helpModal');
     const closeBtn = document.querySelector('.close-btn');
     const messagesContainer = document.querySelector('.messages');
+    const newChatBtn = document.getElementById('new-chat-btn');
+    const newChatModal = document.getElementById('newChatModal');
+    const closeNewChatBtn = document.getElementById('close-new-chat-btn');
+    const createChatBtn = document.getElementById('create-chat-btn');
     let mediaRecorder;
     let audioChunks = [];
     let isRecording = false;
 
+    // Функция для обновления иконки настроек и логотипа в зависимости от темы
+    function updateThemeIcon() {
+        const settingsIcon = themeToggle.querySelector('.settings-icon');
+        const logo = document.querySelector('.logo');
+        if (document.body.classList.contains('dark-theme')) {
+            settingsIcon.src = '../styles/sun.svg';
+            logo.src = '../styles/logo_dark.svg';
+        } else {
+            settingsIcon.src = '../styles/moon.svg';
+            logo.src = '../styles/logo.svg';
+        }
+    }
 
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
+        updateThemeIcon();
     });
 
     helpBtn.addEventListener('click', () => {
@@ -51,6 +68,22 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener('click', (event) => {
         if (event.target == helpModal) {
             helpModal.style.display = 'none';
+        }
+    });
+
+    newChatBtn.addEventListener('click', () => {
+        newChatModal.style.display = 'block';
+    });
+
+    closeNewChatBtn.addEventListener('click', () => {
+        newChatModal.style.display = 'none';
+    });
+
+    createChatBtn.addEventListener('click', () => {
+        const chatName = document.getElementById('new-chat-name').value;
+        if (chatName) {
+            // Перенаправление на новый URL с параметром имени нового чата
+            window.location.href = `/add-new-chat?name=${encodeURIComponent(chatName)}`;
         }
     });
 
@@ -133,4 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error('Обновите Ваш браузер для корректной работы голосового ввода!');
     }
+
+    // Инициализация иконки настроек и логотипа при загрузке страницы
+    updateThemeIcon();
 });
